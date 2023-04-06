@@ -39,7 +39,8 @@ namespace season2_singajabrig
                                         Console.WriteLine("\nMenu");
                                         Console.WriteLine("1. Melihat Seluruh Data");
                                         Console.WriteLine("2. Tambah Data");
-                                        Console.WriteLine("3. Keluar");
+                                        Console.WriteLine("3. Hapus Data");
+                                        Console.WriteLine("4. Keluar");
                                         Console.Write("\nEnter your choice (1-3): ");
                                         char ch = Convert.ToChar(Console.ReadLine());
                                         switch (ch)
@@ -76,6 +77,16 @@ namespace season2_singajabrig
                                                 }
                                                 break;
                                             case '3':
+                                                try
+                                                {
+                                                    pr.delete();
+                                                }
+                                                catch
+                                                {
+                                                    Console.WriteLine("\nAnda tidak memiliki " + "akses untuk menghapus data");
+                                                }
+                                                break;
+                                            case '4':
                                                 conn.Close();
                                                 return;
                                             default:
@@ -108,6 +119,12 @@ namespace season2_singajabrig
                 }
             }
         }
+
+        private void delete()
+        {
+            throw new NotImplementedException();
+        }
+
         public void baca(SqlConnection con)
         {
             SqlCommand cmd = new SqlCommand("Select*From pembeli", con);
@@ -136,6 +153,22 @@ namespace season2_singajabrig
             cmd.Parameters.Add(new SqlParameter("telepon", TLP));
             cmd.ExecuteNonQuery();
             Console.WriteLine("Data Berhasil Ditambahkan");
+        }
+
+        public void delete(string ID, string NAMA, string KEC, string JAL, string TLP, SqlConnection con)
+        {
+            string str = "";
+            str = "delete from pembeli (ID, NAMA, KEC, JAL, TLP)values(@id_pembeli, @nama_pembeli, @kecamatan, @jalan, @telepon)";
+            SqlCommand cmd = new SqlCommand(str, con);
+            cmd.CommandType = CommandType.Text;
+
+            cmd.Parameters.Add(new SqlParameter("id_pembeli", ID));
+            cmd.Parameters.Add(new SqlParameter("nama_pembeli", NAMA));
+            cmd.Parameters.Add(new SqlParameter("kecamatan", KEC));
+            cmd.Parameters.Add(new SqlParameter("jalan", JAL));
+            cmd.Parameters.Add(new SqlParameter("telepon", TLP));
+            cmd.ExecuteNonQuery();
+            Console.WriteLine("Data Berhasil Dihapus");
         }
     }
 }

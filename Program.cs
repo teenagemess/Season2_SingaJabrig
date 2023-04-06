@@ -47,26 +47,26 @@ namespace season2_singajabrig
                                             case '1':
                                                 {
                                                     Console.Clear();
-                                                    Console.WriteLine("DATA MAHASISWA\n");
+                                                    Console.WriteLine("DATA PEMBELI\n");
                                                     Console.WriteLine();
                                                     pr.baca(conn);
                                                 }
                                                 break;
                                             case '2':
                                                 {
-                                                    Console.WriteLine(" Masukkan NIM : ");
-                                                    string NIM = Console.ReadLine();
-                                                    Console.WriteLine("Masukkan Nama Mahasiswa : ");
-                                                    string NamaMhs = Console.ReadLine();
-                                                    Console.WriteLine("Masukkan Alamat Mahasiswa : ");
-                                                    string Almt = Console.ReadLine();
-                                                    Console.WriteLine("Masukkan Jenis Kelamin (L/P) : ");
-                                                    string jk = Console.ReadLine();
+                                                    Console.WriteLine(" Masukkan ID : ");
+                                                    string ID = Console.ReadLine();
+                                                    Console.WriteLine("NAMA : ");
+                                                    string NAMA = Console.ReadLine();
+                                                    Console.WriteLine("Kecamatan : ");
+                                                    string KEC = Console.ReadLine();
+                                                    Console.WriteLine("Jalan : ");
+                                                    string JAL = Console.ReadLine();
                                                     Console.WriteLine("Masukkan No Telepon :");
-                                                    string notlpn = Console.ReadLine();
+                                                    string TLP = Console.ReadLine();
                                                     try
                                                     {
-                                                        pr.insert(NIM, NamaMhs, Almt, jk, notlpn, conn);
+                                                        pr.insert(ID, NAMA, KEC, JAL, TLP, conn);
                                                     }
                                                     catch
                                                     {
@@ -110,7 +110,7 @@ namespace season2_singajabrig
         }
         public void baca(SqlConnection con)
         {
-            SqlCommand cmd = new SqlCommand("Select*From HRD.Mahasiswa", con);
+            SqlCommand cmd = new SqlCommand("Select*From pembeli", con);
             SqlDataReader r = cmd.ExecuteReader();
             while (r.Read())
             {
@@ -122,18 +122,18 @@ namespace season2_singajabrig
             }
         }
 
-        public void insert(string NIM, string NmaMhs, string AlamatMhs, string Sex, string PhoneMhs, SqlConnection con)
+        public void insert(string ID, string NAMA, string KEC, string JAL, string TLP, SqlConnection con)
         {
             string str = "";
-            str = "insert into HRD.MAHASISWA (NIM, NamaMhs, AlamatMhs, Sex, PhoneMhs)values(@nim, @nma, @alamat, @JK, @Phn)";
+            str = "insert into pembeli (ID, NAMA, KEC, JAL, TLP)values(@id_pembeli, @nama_pembeli, @kecamatan, @jalan, @telepon)";
             SqlCommand cmd = new SqlCommand(str, con);
             cmd.CommandType = CommandType.Text;
 
-            cmd.Parameters.Add(new SqlParameter("nim", NIM));
-            cmd.Parameters.Add(new SqlParameter("nma", NmaMhs));
-            cmd.Parameters.Add(new SqlParameter("alamat", AlamatMhs));
-            cmd.Parameters.Add(new SqlParameter("jk", Sex));
-            cmd.Parameters.Add(new SqlParameter("Phn", PhoneMhs));
+            cmd.Parameters.Add(new SqlParameter("id_pembeli", ID));
+            cmd.Parameters.Add(new SqlParameter("nama_pembeli", NAMA));
+            cmd.Parameters.Add(new SqlParameter("kecamatan", KEC));
+            cmd.Parameters.Add(new SqlParameter("jalan", JAL));
+            cmd.Parameters.Add(new SqlParameter("telepon", TLP));
             cmd.ExecuteNonQuery();
             Console.WriteLine("Data Berhasil Ditambahkan");
         }
